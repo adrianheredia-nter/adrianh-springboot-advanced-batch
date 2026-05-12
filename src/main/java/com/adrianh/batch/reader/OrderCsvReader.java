@@ -12,7 +12,7 @@ import org.springframework.core.io.Resource;
 /**
  * Custom CSV reader for order records.
  * <p>
- * Reads the {@code pedidos.csv} file line by line, tokenizing each line into
+ * Reads the {@code orders.csv} file line by line, tokenizing each line into
  * the four expected columns: orderId, customerName, orderDate, and orderTotal.
  * </p>
  *

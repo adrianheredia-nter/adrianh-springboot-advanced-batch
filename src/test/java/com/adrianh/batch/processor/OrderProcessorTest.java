@@ -35,7 +35,7 @@ class OrderProcessorTest {
     void shouldProcessValidOrder() {
         OrderCsv orderCsv = OrderCsv.builder()
                 .orderId("1")
-                .customerName("Juan Pérez")
+                .customerName("John Smith")
                 .orderDate("2023-08-01")
                 .orderTotal("150.00")
                 .build();
@@ -44,7 +44,7 @@ class OrderProcessorTest {
 
         assertNotNull(result);
         assertEquals(1L, result.getOrderId());
-        assertEquals("JUAN PÉREZ", result.getCustomerName());
+        assertEquals("JOHN SMITH", result.getCustomerName());
         assertEquals("150.00", result.getOrderTotal().toPlainString());
     }
 
@@ -53,7 +53,7 @@ class OrderProcessorTest {
     void shouldConvertCustomerNameToUpperCase() {
         OrderCsv orderCsv = OrderCsv.builder()
                 .orderId("2")
-                .customerName("maria garcía")
+                .customerName("mary johnson")
                 .orderDate("2023-08-02")
                 .orderTotal("230.50")
                 .build();
@@ -61,7 +61,7 @@ class OrderProcessorTest {
         Order result = processor.process(orderCsv);
 
         assertNotNull(result);
-        assertEquals("MARIA GARCÍA", result.getCustomerName());
+        assertEquals("MARY JOHNSON", result.getCustomerName());
     }
 
     @Test
@@ -69,7 +69,7 @@ class OrderProcessorTest {
     void shouldRejectOrderWithTotalZero() {
         OrderCsv orderCsv = OrderCsv.builder()
                 .orderId("3")
-                .customerName("Carlos López")
+                .customerName("Charles Williams")
                 .orderDate("2023-08-03")
                 .orderTotal("0.00")
                 .build();
@@ -84,7 +84,7 @@ class OrderProcessorTest {
     void shouldRejectOrderWithNegativeTotal() {
         OrderCsv orderCsv = OrderCsv.builder()
                 .orderId("4")
-                .customerName("Ana Martínez")
+                .customerName("Anna Brown")
                 .orderDate("2023-08-04")
                 .orderTotal("-25.00")
                 .build();

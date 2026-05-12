@@ -43,7 +43,7 @@ Orders rejected: <filterCount>
 ==============================================
 ```
 
-With the default `pedidos.csv` (55 records, 8 invalid with total ≤ 0):
+With the default `orders.csv` (55 records, 8 invalid with total ≤ 0):
 - Total: 55
 - Accepted: 47
 - Rejected: 8
@@ -82,7 +82,7 @@ Each rejected order logs: `Order rejected - total is less than or equal to 0: <o
 
 ## Test CSV
 
-The test CSV at `src/test/resources/data/pedidos-test.csv` has 5 records (3 valid, 2 invalid) for faster integration tests.
+The test CSV at `src/test/resources/data/orders-test.csv` has 5 records (3 valid, 2 invalid) for faster integration tests.
 
 ## Scheduled Execution
 

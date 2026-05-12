@@ -18,7 +18,7 @@ import java.time.LocalDate;
 /**
  * Entity representing a customer order.
  * <p>
- * Maps to the {@code pedidos} table in the H2 database. Each order contains
+ * Maps to the {@code orders} table in the H2 database. Each order contains
  * an identifier, customer name, order date, and total amount.
  * </p>
  *
@@ -26,7 +26,7 @@ import java.time.LocalDate;
  * @version 1.0.0
  */
 @Entity
-@Table(name = "pedidos")
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
