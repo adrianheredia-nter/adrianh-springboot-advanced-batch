@@ -36,11 +36,6 @@ public final class BatchConstants {
     public static final int SKIP_LIMIT = 10;
     public static final int RETRY_LIMIT = 3;
 
-    // Execution context keys
-    public static final String KEY_TOTAL_PROCESSED = "totalProcessed";
-    public static final String KEY_ACCEPTED_COUNT = "acceptedCount";
-    public static final String KEY_REJECTED_COUNT = "rejectedCount";
-
     // Date format
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 

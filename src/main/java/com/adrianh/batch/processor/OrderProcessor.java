@@ -22,6 +22,9 @@ import java.time.format.DateTimeParseException;
  *     <li>Date strings are parsed and validated.</li>
  *     <li>Numeric fields are validated for correct format.</li>
  * </ul>
+ * Accepted/rejected counts are tracked by Spring Batch's {@code StepExecution} metrics
+ * (writeCount and filterCount), ensuring accurate counts even during fault-tolerant
+ * chunk reprocessing and across multiple job runs.
  * </p>
  *
  * @author adrianh
@@ -32,9 +35,6 @@ public class OrderProcessor implements ItemProcessor<OrderCsv, Order> {
 
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern(BatchConstants.DATE_FORMAT);
-
-    private int acceptedCount = 0;
-    private int rejectedCount = 0;
 
     /**
      * Processes a single CSV order record.
@@ -55,7 +55,6 @@ public class OrderProcessor implements ItemProcessor<OrderCsv, Order> {
         BigDecimal orderTotal = parseOrderTotal(orderCsv.getOrderTotal());
 
         if (orderTotal.compareTo(BigDecimal.ZERO) <= 0) {
-            rejectedCount++;
             log.warn(BatchConstants.LOG_ORDER_REJECTED, orderId);
             return null;
         }
@@ -70,28 +69,9 @@ public class OrderProcessor implements ItemProcessor<OrderCsv, Order> {
                 .orderTotal(orderTotal)
                 .build();
 
-        acceptedCount++;
         log.debug(BatchConstants.LOG_ORDER_PROCESSED, order);
 
         return order;
-    }
-
-    /**
-     * Returns the count of accepted orders.
-     *
-     * @return number of accepted orders
-     */
-    public int getAcceptedCount() {
-        return acceptedCount;
-    }
-
-    /**
-     * Returns the count of rejected orders.
-     *
-     * @return number of rejected orders
-     */
-    public int getRejectedCount() {
-        return rejectedCount;
     }
 
     /**

@@ -46,8 +46,6 @@ class OrderProcessorTest {
         assertEquals(1L, result.getOrderId());
         assertEquals("JUAN PÉREZ", result.getCustomerName());
         assertEquals("150.00", result.getOrderTotal().toPlainString());
-        assertEquals(1, processor.getAcceptedCount());
-        assertEquals(0, processor.getRejectedCount());
     }
 
     @Test
@@ -79,8 +77,6 @@ class OrderProcessorTest {
         Order result = processor.process(orderCsv);
 
         assertNull(result);
-        assertEquals(0, processor.getAcceptedCount());
-        assertEquals(1, processor.getRejectedCount());
     }
 
     @Test
@@ -96,8 +92,6 @@ class OrderProcessorTest {
         Order result = processor.process(orderCsv);
 
         assertNull(result);
-        assertEquals(0, processor.getAcceptedCount());
-        assertEquals(1, processor.getRejectedCount());
     }
 
     @Test
@@ -140,8 +134,8 @@ class OrderProcessorTest {
     }
 
     @Test
-    @DisplayName("Should correctly count accepted and rejected orders")
-    void shouldCorrectlyCountAcceptedAndRejected() {
+    @DisplayName("Should correctly process mix of valid and invalid orders")
+    void shouldCorrectlyProcessMixOfOrders() {
         OrderCsv validOrder = OrderCsv.builder()
                 .orderId("1")
                 .customerName("Valid Customer")
@@ -156,11 +150,12 @@ class OrderProcessorTest {
                 .orderTotal("0.00")
                 .build();
 
-        processor.process(validOrder);
-        processor.process(invalidOrder);
-        processor.process(validOrder);
+        Order validResult = processor.process(validOrder);
+        Order invalidResult = processor.process(invalidOrder);
+        Order validResult2 = processor.process(validOrder);
 
-        assertEquals(2, processor.getAcceptedCount());
-        assertEquals(1, processor.getRejectedCount());
+        assertNotNull(validResult);
+        assertNull(invalidResult);
+        assertNotNull(validResult2);
     }
 }

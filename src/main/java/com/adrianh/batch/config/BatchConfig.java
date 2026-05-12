@@ -17,6 +17,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.file.FlatFileParseException;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,10 +66,15 @@ public class BatchConfig {
 
     /**
      * Creates the order processor bean.
+     * <p>
+     * Scoped to the step to ensure a fresh instance is created for each step execution,
+     * preventing counter accumulation across job runs.
+     * </p>
      *
      * @return configured {@link OrderProcessor}
      */
     @Bean
+    @StepScope
     public OrderProcessor orderProcessor() {
         return new OrderProcessor();
     }
@@ -85,12 +91,16 @@ public class BatchConfig {
 
     /**
      * Creates the summary tasklet bean.
+     * <p>
+     * Uses Spring Batch's {@code StepExecution} metrics instead of processor instance
+     * variables, ensuring accurate counts even during fault-tolerant reprocessing.
+     * </p>
      *
      * @return configured {@link SummaryTasklet}
      */
     @Bean
     public SummaryTasklet summaryTasklet() {
-        return new SummaryTasklet(orderProcessor());
+        return new SummaryTasklet();
     }
 
     /**
