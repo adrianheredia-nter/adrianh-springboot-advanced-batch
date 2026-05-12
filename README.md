@@ -47,7 +47,7 @@ src/main/java/com/adrianh/batch/
 src/main/resources/
 ├── application.properties         # Application configuration
 └── data/
-    └── pedidos.csv               # Input CSV with 55 customer orders
+    └── orders.csv                # Input CSV with 55 customer orders
 ```
 
 ## Prerequisites
@@ -100,7 +100,7 @@ http://localhost:8080/h2-console
 
 | Component | Description |
 |-----------|-------------|
-| **Reader** | `OrderCsvReader` — Reads `pedidos.csv` line by line using `FlatFileItemReader` |
+| **Reader** | `OrderCsvReader` — Reads `orders.csv` line by line using `FlatFileItemReader` |
 | **Processor** | `OrderProcessor` — Validates totals (rejects ≤ 0), converts names to uppercase |
 | **Writer** | `OrderWriter` — Persists valid orders to H2 via Spring Data JPA |
 | **Chunk Size** | 15 items per transaction |
@@ -127,19 +127,19 @@ The job is scheduled to run at **midnight every day** using the cron expression 
 
 ## CSV File Format
 
-The input file `pedidos.csv` uses comma-separated values with the following columns:
+The input file `orders.csv` uses comma-separated values with the following columns:
 
 | Column | Description | Example |
 |--------|-------------|---------|
 | Order ID | Unique identifier | `1` |
-| Customer Name | Customer full name | `Juan Pérez` |
+| Customer Name | Customer full name | `John Smith` |
 | Order Date | Date in yyyy-MM-dd format | `2023-08-01` |
 | Order Total | Decimal amount | `150.00` |
 
 Example:
 ```csv
-1,Juan Pérez,2023-08-01,150.00
-2,Maria García,2023-08-02,230.50
+1,John Smith,2023-08-01,150.00
+2,Mary Johnson,2023-08-02,230.50
 ```
 
 ## Running Tests
@@ -161,7 +161,7 @@ mvn test
 | `spring.datasource.url` | H2 database URL | `jdbc:h2:mem:batchdb` |
 | `spring.jpa.hibernate.ddl-auto` | Schema generation strategy | `update` |
 | `spring.batch.job.enabled` | Auto-run job on startup | `false` |
-| `batch.input.file` | Path to input CSV file | `classpath:data/pedidos.csv` |
+| `batch.input.file` | Path to input CSV file | `classpath:data/orders.csv` |
 
 ## Author
 

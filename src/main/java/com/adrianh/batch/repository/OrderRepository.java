@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for {@link Order} entities.
  * <p>
- * Provides CRUD operations and custom queries for the {@code pedidos} table.
+ * Provides CRUD operations and custom queries for the {@code orders} table.
  * </p>
  *
  * @author adrianh
